@@ -11,10 +11,10 @@
     "chain": "npm run validate && npm run index && npm run readme",
     "catalog": "node scripts/build-catalog.js",
     "build": "npm run chain && npm run catalog",
-    "test": "node scripts/tests/validate_skills_headings.test.js && python3 scripts/tests/test_validate_skills_headings.py"
+    "test": "node scripts/tests/validate_skills_headings.test.js && python3 scripts/tests/test_validate_skills_headings.py && node scripts/tests/build_catalog_determinism.test.js"
   },
   "devDependencies": {
-    "yaml": "^2.8.2"
+    "yaml": "^2.9.1"
   },
   "repository": {
     "type": "git",
