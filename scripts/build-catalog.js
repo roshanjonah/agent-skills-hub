@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { isDeepStrictEqual } = require('util');
 const {
   listSkillIdsRecursive,
   readSkill,
@@ -330,6 +331,14 @@ function buildCatalog() {
   const catalogMarkdownPath = path.join(ROOT, 'CATALOG.md');
   const bundlesPath = path.join(ROOT, 'data', 'bundles.json');
   const aliasesPath = path.join(ROOT, 'data', 'aliases.json');
+
+  if (fs.existsSync(catalogPath)) {
+    const previous = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+    if (typeof previous.generatedAt === 'string'
+      && isDeepStrictEqual({ ...previous, generatedAt: catalog.generatedAt }, catalog)) {
+      catalog.generatedAt = previous.generatedAt;
+    }
+  }
 
   fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));
   fs.writeFileSync(catalogMarkdownPath, renderCatalogMarkdown(catalog));
